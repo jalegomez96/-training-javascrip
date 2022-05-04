@@ -214,3 +214,38 @@ const newProducts = [
         typeOfProcuct: "Electronic",
     },
 ];
+
+function findTypeOfProductByName(name) {
+    return typeOfProducts.find((typeOfProduct) => typeOfProduct.name === name);
+}
+
+function findProduct(product) {
+    const { productId, name } = product;
+    return products.find(
+        (product) => product.productId === productId || product.name === name
+    );
+}
+function createProduct(product) {
+    const { id } = product;
+    try {
+        let newProduct = {
+            productId: product.id,
+            name: product.name,
+        };
+        if (findProduct(newProduct)) throw "Product alredy exist";
+        const typeOfProcuct = findTypeOfProductByName(product.typeOfProcuct);
+        if (!typeOfProcuct) throw "Type of product not exist";
+        newProduct = {
+            ...newProduct,
+            typeOfProcuct: typeOfProcuct.id,
+            price: product.price || 0,
+        };
+        products.push(newProduct);
+        return { id, status: "succes" };
+    } catch (error) {
+        return { id, status: "error", message: error };
+    }
+}
+
+const createdProducts = newProducts.map((product) => createProduct(product));
+console.log(createdProducts);

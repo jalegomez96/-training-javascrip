@@ -182,7 +182,7 @@ console.log(formatDataA);
 const formatDataB = products.map((product) => {
     const { productId, typeOfProduct, price } = product;
     const { discountApply, value } = discountsHolyDaySMap[typeOfProduct];
-    const priceWithDiscount = discountApply ? price - value : price;
+    const priceWithDiscount = discountApply ? price * (1 - value / 100) : price;
     return { productId, priceWithDiscount };
 });
 
